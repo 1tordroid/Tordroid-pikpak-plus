@@ -1,0 +1,633 @@
+/*
+ * Tordroid design system ("Graphite & Signal"), Tordroid Plus product.
+ * Values come from tordroid-sites/shared/tokens.json (products.plus, status,
+ * shadows) and the type scale in shared/css/base.css.
+ *
+ * Scope: only the public pages (sign in, sign up, password reset, FAQ) are
+ * wrapped in .td-public by app/(public)/layout.tsx. body:has(.td-public)
+ * carries the same values so Radix portals (menus) rendered into <body>
+ * match. The signed-in app never gets these rules.
+ *
+ * This file is deliberately not inside a cascade layer: unlayered rules win
+ * over Tailwind's utility layer, so the shared shadcn components can be
+ * restyled here without touching their markup or logic.
+ */
+
+/* ---------- Tokens: light (default) ---------- */
+.td-public,
+body:has(.td-public) {
+  /* shadcn variables, HSL triplets */
+  --background: 220 23% 97%;
+  --foreground: 223 17% 8%;
+  --card: 0 0% 100%;
+  --card-foreground: 223 17% 8%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 223 17% 8%;
+  --primary: 222 75% 52%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 220 21% 95%;
+  --secondary-foreground: 223 17% 8%;
+  --muted: 220 21% 95%;
+  --muted-foreground: 220 9% 34%;
+  --accent: 220 21% 95%;
+  --accent-foreground: 223 17% 8%;
+  --border: 223 14% 90%;
+  --input: 222 4% 53%;
+  --ring: 222 75% 48%;
+  --destructive: 357 67% 45%;
+  --destructive-foreground: 0 0% 100%;
+  --radius: 0.625rem;
+
+  /* Graphite & Signal, Plus light */
+  --td-bg: #f7f8fa;
+  --td-bg-raised: #ffffff;
+  --td-bg-sunken: #eef0f4;
+  --td-fg: #111318;
+  --td-fg-muted: #50555f;
+  --td-fg-subtle: #626772;
+  --td-accent: #1f57d6;
+  --td-accent-strong: #1a4bbf;
+  --td-accent-fill: #2a62e0;
+  --td-accent-hover: #2553c4;
+  --td-accent-ink: #ffffff;
+  --td-line: rgba(17, 19, 24, 0.08);
+  --td-line-strong: rgba(17, 19, 24, 0.14);
+  --td-line-control: rgba(17, 19, 24, 0.5);
+  --td-ok: #1c7a35;
+  --td-danger: #c0262d;
+  --td-info: #1f5fcf;
+  --td-led: #8db4ff;
+  --td-sh-rgb: 14, 18, 32;
+  --td-sh-1:
+    0 0 0 1px rgba(var(--td-sh-rgb), 0.06),
+    0 1px 2px rgba(var(--td-sh-rgb), 0.04);
+  --td-sh-3:
+    0 0 0 1px rgba(var(--td-sh-rgb), 0.08),
+    0 12px 32px -8px rgba(var(--td-sh-rgb), 0.18),
+    0 4px 8px -4px rgba(var(--td-sh-rgb), 0.08);
+
+  /* Type scale (shared/tokens.json constants) */
+  --td-t-h1: clamp(2rem, 1.583rem + 1.852vw, 3.25rem);
+  --td-t-lead: clamp(1.0625rem, 1rem + 0.278vw, 1.25rem);
+  --td-gutter: clamp(1rem, 0.6rem + 1.8vw, 2.5rem);
+  --td-ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --td-i-plus: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round'%3E%3Cpath d='M5 12h14M12 5v14'/%3E%3C/svg%3E");
+
+  color-scheme: light;
+}
+
+/* ---------- Tokens: dark (next-themes puts .dark on <html>) ---------- */
+.dark .td-public,
+.dark body:has(.td-public) {
+  --background: 230 23% 5%;
+  --foreground: 225 27% 94%;
+  --card: 227 21% 8%;
+  --card-foreground: 225 27% 94%;
+  --popover: 225 21% 11%;
+  --popover-foreground: 225 27% 94%;
+  --primary: 222 75% 52%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 225 21% 11%;
+  --secondary-foreground: 225 27% 94%;
+  --muted: 225 21% 11%;
+  --muted-foreground: 224 11% 67%;
+  --accent: 225 21% 11%;
+  --accent-foreground: 225 27% 94%;
+  --border: 225 16% 15%;
+  /* 41% (not 38%) keeps the input border at 3:1 on the card, not only on the page */
+  --input: 225 6% 41%;
+  --ring: 219 100% 78%;
+  --destructive: 4 69% 47%;
+  --destructive-foreground: 0 0% 100%;
+
+  --td-bg: #0a0b10;
+  --td-bg-raised: #11131a;
+  --td-bg-sunken: #07080c;
+  --td-fg: #eceef4;
+  --td-fg-muted: #a1a6b4;
+  --td-fg-subtle: #838897;
+  --td-accent: #8db4ff;
+  --td-accent-strong: #8db4ff;
+  --td-accent-fill: #2a62e0;
+  --td-accent-hover: #2553c4;
+  --td-line: rgba(255, 255, 255, 0.07);
+  --td-line-strong: rgba(255, 255, 255, 0.12);
+  --td-line-control: rgba(255, 255, 255, 0.36);
+  --td-ok: #6bd07a;
+  --td-danger: #ff6b6b;
+  --td-info: #7db3ff;
+  --td-sh-1: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --td-sh-3:
+    0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 16px 40px -8px rgba(0, 0, 0, 0.6),
+    0 4px 12px -4px rgba(0, 0, 0, 0.5);
+
+  color-scheme: dark;
+}
+
+/* ---------- Base ---------- */
+.td-public {
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--td-bg);
+  color: var(--td-fg);
+  font-family:
+    var(--font-td-sans), ui-sans-serif, system-ui, "Segoe UI", Roboto,
+    "Noto Sans", sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
+  font-feature-settings: "kern", "calt";
+  font-variation-settings: normal;
+  font-synthesis-weight: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body:has(.td-public) {
+  background: var(--td-bg);
+}
+
+.td-public h1,
+.td-public h2 {
+  color: var(--td-fg);
+  font-weight: 600;
+  text-wrap: balance;
+}
+
+.td-public p {
+  text-wrap: pretty;
+}
+
+.td-public ::selection {
+  background: color-mix(in srgb, var(--td-accent) 30%, transparent);
+}
+
+.td-public :focus-visible,
+body:has(.td-public) [role="menu"] :focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+}
+
+/* Text links and anything the app tints with the primary colour.
+   The fill colour is too dark for text on the dark theme, so text uses the
+   accent token, which passes AA in both themes. */
+.td-public .text-primary,
+.td-public .td-link {
+  color: var(--td-accent);
+}
+
+.td-public a.td-link {
+  font-weight: 520;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  text-decoration-color: color-mix(in srgb, var(--td-accent) 40%, transparent);
+  transition: text-decoration-color 120ms;
+}
+
+.td-public a.td-link:hover {
+  color: var(--td-accent);
+  text-decoration-color: currentColor;
+}
+
+.td-public .text-destructive,
+body:has(.td-public) .text-destructive {
+  color: var(--td-danger);
+}
+
+/* ---------- Lockup: Plus icon 28 + "Tordroid Plus" ----------
+   BrandLogo tone="plain": solid ink, no gradient text, no hover scale. */
+.td-public [data-brand-tone="plain"] {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transform: none;
+  scale: none;
+}
+
+.td-public [data-brand-tone="plain"] [data-brand-name] {
+  color: var(--td-fg);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  font-stretch: 112%;
+  letter-spacing: -0.015em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* ---------- Sign-in layout: one centred 400px card ---------- */
+.td-auth {
+  display: flex;
+  min-height: 100vh;
+  min-height: 100dvh;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 16px;
+}
+
+.td-auth-inner {
+  display: flex;
+  width: 100%;
+  max-width: 400px;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+}
+
+.td-public .td-card {
+  width: 100%;
+  border: 1px solid hsl(var(--border));
+  border-radius: 20px;
+  background: hsl(var(--card));
+  color: var(--td-fg);
+  box-shadow: var(--td-sh-3);
+  transition: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.td-public .td-card-head {
+  gap: 6px;
+  padding: 32px 28px 8px;
+  text-align: center;
+}
+
+.td-public .td-card-body {
+  padding: 20px 28px 28px;
+}
+
+.td-public .td-card-foot {
+  justify-content: center;
+  padding: 20px 28px 24px;
+  border-top: 1px solid hsl(var(--border));
+}
+
+.td-public .td-card-state {
+  padding: 32px 28px 28px;
+  text-align: center;
+}
+
+.td-public .td-card-state .td-desc {
+  margin: 10px auto 24px;
+  max-width: 32ch;
+}
+
+@media (max-width: 399.98px) {
+  .td-public .td-card-head {
+    padding: 28px 20px 4px;
+  }
+  .td-public .td-card-body,
+  .td-public .td-card-state {
+    padding-inline: 20px;
+  }
+  .td-public .td-card-foot {
+    padding-inline: 20px;
+  }
+}
+
+.td-public .td-title {
+  margin: 0;
+  color: var(--td-fg);
+  font-size: 1.5rem;
+  font-weight: 600;
+  font-stretch: 108%;
+  line-height: 1.2;
+  letter-spacing: -0.022em;
+}
+
+.td-public .td-desc {
+  margin: 0;
+  color: var(--td-fg-muted);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+.td-public .td-meta {
+  color: var(--td-fg-muted);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.td-public .td-meta a.td-link {
+  font-size: inherit;
+}
+
+.td-public .td-card-foot > a.td-link {
+  font-size: 0.9375rem;
+}
+
+/* ---------- Form fields ---------- */
+.td-public .td-form {
+  display: grid;
+  gap: 18px;
+}
+
+.td-public .td-field {
+  display: grid;
+  gap: 8px;
+}
+
+.td-public .td-field-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.td-public .td-label {
+  color: var(--td-fg);
+  font-size: 0.875rem;
+  font-weight: 520;
+  line-height: 1.3;
+}
+
+.td-public .td-field-row a.td-link {
+  font-size: 0.875rem;
+}
+
+.td-public .td-input {
+  height: 44px;
+  border: 1px solid hsl(var(--input));
+  border-radius: 10px;
+  background: hsl(var(--card));
+  color: var(--td-fg);
+  padding: 0 14px;
+  /* 16px stops iOS zooming into the field */
+  font-size: 1rem;
+  font-family: inherit;
+  transition:
+    border-color 120ms,
+    box-shadow 120ms;
+}
+
+.td-public .td-input::placeholder {
+  color: var(--td-fg-subtle);
+  opacity: 1;
+}
+
+.td-public .td-input:hover {
+  border-color: var(--td-line-control);
+}
+
+.td-public .td-input:focus-visible {
+  border-color: hsl(var(--ring));
+  outline: none;
+  box-shadow:
+    0 0 0 1px hsl(var(--ring)),
+    0 0 0 4px color-mix(in srgb, hsl(var(--ring)) 22%, transparent);
+  --tw-ring-shadow: 0 0 #0000;
+  --tw-ring-offset-shadow: 0 0 #0000;
+}
+
+/* ---------- Buttons ---------- */
+.td-public .td-btn {
+  display: inline-flex;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 18px;
+  border: 1px solid var(--td-line-control);
+  border-radius: 10px;
+  background: hsl(var(--card));
+  background-image: none;
+  color: var(--td-fg);
+  font-size: 0.9375rem;
+  font-weight: 520;
+  box-shadow: none;
+  scale: none;
+  transform: none;
+  transition:
+    background-color 120ms,
+    border-color 120ms,
+    color 120ms,
+    scale 80ms var(--td-ease-out);
+}
+
+.td-public .td-btn:hover {
+  background: var(--td-bg-sunken);
+  box-shadow: none;
+  scale: none;
+}
+
+.td-public .td-btn:active {
+  scale: 0.98;
+}
+
+.td-public .td-btn-primary {
+  border-color: transparent;
+  background: var(--td-accent-fill);
+  color: var(--td-accent-ink);
+}
+
+.td-public .td-btn-primary:hover {
+  background: var(--td-accent-hover);
+  color: var(--td-accent-ink);
+}
+
+.td-public .td-btn:disabled {
+  opacity: 0.6;
+}
+
+/* ---------- Callouts (alerts) ---------- */
+.td-public .td-callout {
+  --c: var(--td-info);
+  border: 0;
+  border-inline-start: 2px solid var(--c);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--c) 7%, transparent);
+  color: var(--td-fg);
+  padding: 12px 16px;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+.td-public .td-callout-danger {
+  --c: var(--td-danger);
+}
+
+/* the destructive Alert variant adds .text-destructive; the callout keeps ink */
+.td-public .td-callout.text-destructive {
+  color: var(--td-fg);
+}
+
+.td-public .td-callout-ok {
+  --c: var(--td-ok);
+}
+
+.td-public .td-status-danger {
+  color: var(--td-danger);
+}
+
+.td-public .td-status-ok {
+  color: var(--td-ok);
+}
+
+.td-public .td-spinner {
+  color: var(--td-accent);
+}
+
+/* ---------- Top bar (FAQ) ---------- */
+.td-topbar {
+  border-bottom: 1px solid var(--td-line);
+  background: var(--td-bg);
+}
+
+.td-wrap {
+  width: 100%;
+  max-width: 1040px;
+  margin-inline: auto;
+  padding-inline: var(--td-gutter);
+}
+
+.td-topbar .td-wrap > div {
+  max-width: none;
+  padding: 12px 0;
+}
+
+/* ---------- FAQ page ---------- */
+.td-page {
+  padding-bottom: clamp(3.5rem, 2rem + 6vw, 8rem);
+}
+
+.td-hero {
+  max-width: 820px;
+  padding: clamp(2rem, 1.2rem + 3.6vw, 3.5rem) 0 clamp(1.5rem, 1rem + 2vw, 2.5rem);
+  border-bottom: 1px solid var(--td-line-strong);
+}
+
+.td-public .td-h1 {
+  margin: 0;
+  font-size: var(--td-t-h1);
+  font-stretch: 108%;
+  line-height: 1.08;
+  letter-spacing: -0.028em;
+}
+
+.td-public .td-lead {
+  max-width: 68ch;
+  margin: 14px 0 0;
+  color: var(--td-fg-muted);
+  font-size: var(--td-t-lead);
+  line-height: 1.55;
+}
+
+.td-faq {
+  max-width: 820px;
+}
+
+.td-acc {
+  border-bottom: 1px solid var(--td-line-strong);
+}
+
+.td-acc > summary {
+  display: flex;
+  min-height: 56px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 0;
+  cursor: pointer;
+  list-style: none;
+  border-radius: 4px;
+}
+
+.td-acc > summary::-webkit-details-marker {
+  display: none;
+}
+
+.td-acc > summary::after {
+  content: "";
+  width: 20px;
+  height: 20px;
+  flex: none;
+  background: var(--td-fg-muted);
+  -webkit-mask: var(--td-i-plus) center / contain no-repeat;
+  mask: var(--td-i-plus) center / contain no-repeat;
+  transition: transform 200ms var(--td-ease-out);
+}
+
+.td-acc[open] > summary::after {
+  transform: rotate(45deg);
+}
+
+.td-acc > summary:hover::after {
+  background: var(--td-fg);
+}
+
+.td-public .td-acc-q {
+  margin: 0;
+  color: var(--td-fg);
+  font-size: 1.0625rem;
+  font-weight: 520;
+  line-height: 1.4;
+  letter-spacing: -0.005em;
+}
+
+.td-acc-body {
+  max-width: 68ch;
+  margin: 0;
+  padding: 0 36px 22px 0;
+  color: var(--td-fg-muted);
+  font-size: 0.96875rem;
+  line-height: 1.7;
+}
+
+@supports (interpolate-size: allow-keywords) {
+  .td-acc {
+    interpolate-size: allow-keywords;
+  }
+  .td-acc::details-content {
+    block-size: 0;
+    overflow: hidden;
+    transition:
+      block-size 240ms var(--td-ease-out),
+      content-visibility 240ms allow-discrete;
+  }
+  .td-acc[open]::details-content {
+    block-size: auto;
+  }
+}
+
+/* ---------- Preferences ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .td-public *,
+  .td-public *::before,
+  .td-public *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+  .td-public .animate-spin {
+    animation-duration: 1.5s !important;
+  }
+}
+
+@media (prefers-contrast: more) {
+  .td-public,
+  body:has(.td-public) {
+    --td-line: rgba(17, 19, 24, 0.3);
+    --td-line-strong: rgba(17, 19, 24, 0.45);
+    --td-fg-muted: #3a3e46;
+    --border: 223 10% 60%;
+  }
+  .dark .td-public,
+  .dark body:has(.td-public) {
+    --td-line: rgba(255, 255, 255, 0.3);
+    --td-line-strong: rgba(255, 255, 255, 0.45);
+    --td-fg-muted: #c6cad4;
+    --border: 225 10% 45%;
+  }
+}
+
+@media (forced-colors: active) {
+  .td-public .td-card,
+  .td-public .td-callout,
+  .td-public .td-btn {
+    border: 1px solid CanvasText;
+  }
+  .td-acc > summary::after {
+    background: CanvasText;
+  }
+}

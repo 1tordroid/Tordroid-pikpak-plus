@@ -9,11 +9,10 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { BrandLogo } from "@/components/brand-logo";
 import { Loader2 } from "lucide-react";
 import { resetPassword } from "@/lib/auth-client";
 
@@ -68,104 +67,90 @@ function ResetPasswordForm() {
 
   if (!token) {
     return (
-      <Card className="w-full max-w-md backdrop-blur-sm bg-card/80 border-t-white/10 shadow-xl">
-        <CardHeader>
-          <CardTitle className="text-destructive text-center">
-            Invalid Link
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="text-center">
-          <p className="mb-4">
+      <Card className="td-card">
+        <div className="td-card-state">
+          <h1 className="td-title td-status-danger">Invalid Link</h1>
+          <p className="td-desc">
             The password reset link is invalid or missing the token.
           </p>
-          <Link href="/forgot-password">
-            <Button variant="outline">Request New Link</Button>
-          </Link>
-        </CardContent>
+          <Button asChild variant="outline" className="td-btn">
+            <Link href="/forgot-password">Request New Link</Link>
+          </Button>
+        </div>
       </Card>
     );
   }
 
   if (success) {
     return (
-      <Card className="w-full max-w-md backdrop-blur-sm bg-card/80 border-t-white/10 shadow-xl">
-        <CardHeader>
-          <CardTitle className="text-green-600 text-center">
-            Password Reset Successful
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="text-center">
-          <p className="mb-4">
+      <Card className="td-card">
+        <div className="td-card-state" role="status">
+          <h1 className="td-title td-status-ok">Password Reset Successful</h1>
+          <p className="td-desc">
             Your password has been updated. Redirecting to login...
           </p>
-          <Loader2 className="h-8 w-8 animate-spin mx-auto text-primary" />
-        </CardContent>
+          <Loader2
+            className="td-spinner h-6 w-6 animate-spin mx-auto"
+            aria-hidden="true"
+          />
+        </div>
       </Card>
     );
   }
 
   return (
-    <Card className="w-full max-w-md backdrop-blur-sm bg-card/80 border-t-white/10 shadow-xl relative z-10 transition-all hover:shadow-2xl hover:border-primary/20">
-      <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl font-bold text-center bg-gradient-to-r from-green-600 to-teal-600 bg-clip-text text-transparent">
-          Reset Password
-        </CardTitle>
-        <CardDescription className="text-center">
+    <Card className="td-card">
+      <CardHeader className="td-card-head">
+        <h1 className="td-title">Reset Password</h1>
+        <CardDescription className="td-desc">
           Enter your new password below
         </CardDescription>
       </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
+      <CardContent className="td-card-body">
+        <form onSubmit={handleSubmit} className="td-form">
           {error && (
-            <Alert
-              variant="destructive"
-              className="bg-destructive/10 text-destructive border-destructive/20"
-            >
+            <Alert variant="destructive" className="td-callout td-callout-danger">
               <AlertDescription>{error}</AlertDescription>
             </Alert>
           )}
-          <div className="space-y-2">
-            <label
-              htmlFor="password"
-              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-            >
+          <div className="td-field">
+            <label htmlFor="password" className="td-label">
               New Password
             </label>
             <Input
               id="password"
               type="password"
+              autoComplete="new-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="bg-background/50 focus:bg-background transition-colors"
+              className="td-input"
               placeholder="New password"
             />
           </div>
-          <div className="space-y-2">
-            <label
-              htmlFor="confirmPassword"
-              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-            >
+          <div className="td-field">
+            <label htmlFor="confirmPassword" className="td-label">
               Confirm New Password
             </label>
             <Input
               id="confirmPassword"
               type="password"
+              autoComplete="new-password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
-              className="bg-background/50 focus:bg-background transition-colors"
+              className="td-input"
               placeholder="Confirm new password"
             />
           </div>
           <Button
-            className="w-full bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-700 hover:to-teal-700 transition-all duration-300"
+            className="td-btn td-btn-primary w-full"
             type="submit"
             disabled={loading}
           >
             {loading ? (
               <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
                 Resetting...
               </>
             ) : (
@@ -180,20 +165,24 @@ function ResetPasswordForm() {
 
 export default function ResetPasswordPage() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background p-4 relative overflow-hidden">
-      {/* Background Gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-green-500/20 via-teal-500/20 to-cyan-500/20 bg-size-200 animate-gradient-xy pointer-events-none" />
-      <Suspense
-        fallback={
-          <Card className="w-full max-w-md p-6">
-            <div className="flex justify-center items-center py-8">
-              <Loader2 className="h-8 w-8 animate-spin" />
-            </div>
-          </Card>
-        }
-      >
-        <ResetPasswordForm />
-      </Suspense>
-    </div>
+    <main className="td-auth">
+      <div className="td-auth-inner">
+        <BrandLogo tone="plain" />
+        <Suspense
+          fallback={
+            <Card className="td-card">
+              <div className="flex justify-center items-center py-12">
+                <Loader2
+                  className="td-spinner h-6 w-6 animate-spin"
+                  aria-hidden="true"
+                />
+              </div>
+            </Card>
+          }
+        >
+          <ResetPasswordForm />
+        </Suspense>
+      </div>
+    </main>
   );
 }

@@ -12,7 +12,6 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { BrandLogo } from "@/components/brand-logo";
@@ -46,85 +45,66 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-background p-4 relative overflow-hidden">
-      {/* Background Gradient */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,hsl(var(--primary)/0.15),transparent_70%)] pointer-events-none" />
-      <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-primary/5 pointer-events-none" />
+    <main className="td-auth">
+      <div className="td-auth-inner">
+        <BrandLogo tone="plain" />
 
-      <div className="w-full max-w-md flex flex-col items-center gap-8 relative z-10 animate-fade-in">
-        <BrandLogo
-          size="lg"
-          className="drop-shadow-2xl transition-transform duration-500 hover:scale-105"
-        />
-
-        <Card className="w-full glass-card shadow-2xl transition-all hover:shadow-primary/10 border-white/10">
-          <CardHeader className="space-y-1">
-            <CardTitle className="text-2xl font-bold text-center bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-              Sign In
-            </CardTitle>
-            <CardDescription className="text-center">
+        <Card className="td-card">
+          <CardHeader className="td-card-head">
+            <h1 className="td-title">Sign In</h1>
+            <CardDescription className="td-desc">
               Enter your email to sign in to your account
             </CardDescription>
           </CardHeader>
-          <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-4">
+          <CardContent className="td-card-body">
+            <form onSubmit={handleSubmit} className="td-form">
               {error && (
-                <Alert
-                  variant="destructive"
-                  className="bg-destructive/10 text-destructive border-destructive/20"
-                >
+                <Alert variant="destructive" className="td-callout td-callout-danger">
                   <AlertDescription>{error}</AlertDescription>
                 </Alert>
               )}
-              <div className="space-y-2">
-                <label
-                  htmlFor="email"
-                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                >
+              <div className="td-field">
+                <label htmlFor="email" className="td-label">
                   Email
                 </label>
                 <Input
                   id="email"
                   type="email"
+                  autoComplete="email"
                   placeholder="m@example.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="bg-background/50 focus:bg-background transition-colors"
+                  className="td-input"
                 />
               </div>
-              <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <label
-                    htmlFor="password"
-                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                  >
+              <div className="td-field">
+                <div className="td-field-row">
+                  <label htmlFor="password" className="td-label">
                     Password
                   </label>
-                  <Link
-                    href="/forgot-password"
-                    className="text-sm font-medium text-primary hover:text-primary/80 transition-colors"
-                  >
+                  <Link href="/forgot-password" className="td-link">
                     Forgot password?
                   </Link>
                 </div>
                 <Input
                   id="password"
                   type="password"
+                  autoComplete="current-password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  className="bg-background/50 focus:bg-background transition-colors"
+                  className="td-input"
                 />
               </div>
               <Button
-                className="w-full gradient-primary hover:opacity-90 transition-all duration-300 shadow-lg shadow-primary/20"
+                className="td-btn td-btn-primary w-full"
                 type="submit"
                 disabled={loading}
               >
                 {loading ? (
                   <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
                     Signing in...
                   </>
                 ) : (
@@ -133,19 +113,16 @@ export default function LoginPage() {
               </Button>
             </form>
           </CardContent>
-          <CardFooter className="flex flex-col items-center space-y-2">
-            <div className="text-sm text-muted-foreground">
+          <CardFooter className="td-card-foot">
+            <p className="td-meta">
               Don't have an account?{" "}
-              <Link
-                href="/register"
-                className="font-medium text-primary hover:text-primary/80 transition-colors"
-              >
+              <Link href="/register" className="td-link">
                 Sign up
               </Link>
-            </div>
+            </p>
           </CardFooter>
         </Card>
       </div>
-    </div>
+    </main>
   );
 }

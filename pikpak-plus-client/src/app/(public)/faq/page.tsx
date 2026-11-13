@@ -51,25 +51,23 @@ export default function FAQPage() {
   ];
 
   return (
-    <main className="flex min-h-screen flex-col items-center p-2 md:p-4 lg:p-8 bg-gradient-to-b from-background to-muted/20 overflow-x-hidden w-full">
-      <div className="container mx-auto px-4 py-8 max-w-4xl">
-        <div className="mb-12 text-center">
-          <h1 className="text-4xl font-bold mb-4 text-foreground">
-            Help &amp; FAQ
-          </h1>
-          <p className="text-lg text-muted-foreground">
+    <main className="td-page">
+      <div className="td-wrap">
+        <div className="td-hero">
+          <h1 className="td-h1">Help &amp; FAQ</h1>
+          <p className="td-lead">
             Everything the family needs to get connected to Tordroid Plus
           </p>
         </div>
 
-        <div className="space-y-6">
+        <div className="td-faq">
           {faqs.map((faq) => (
-            <div key={faq.question} className="border-b border-border pb-6">
-              <h2 className="text-xl font-semibold mb-3 text-foreground">
-                {faq.question}
-              </h2>
-              <p className="text-muted-foreground">{faq.answer}</p>
-            </div>
+            <details key={faq.question} className="td-acc">
+              <summary>
+                <h2 className="td-acc-q">{faq.question}</h2>
+              </summary>
+              <p className="td-acc-body">{faq.answer}</p>
+            </details>
           ))}
         </div>
       </div>

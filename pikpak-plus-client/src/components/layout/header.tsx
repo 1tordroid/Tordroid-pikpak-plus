@@ -16,7 +16,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-export function Header() {
+export function Header({
+  plainBrand = false,
+}: Readonly<{ plainBrand?: boolean }> = {}) {
   const { user, isAdmin, logout } = useAuth();
   const router = useRouter();
 
@@ -29,7 +31,11 @@ export function Header() {
     <div className="w-full max-w-5xl flex items-center justify-between pb-4 pt-2">
       <div className="flex items-center">
         {/* Icon only on mobile, icon + name on desktop */}
-        <BrandLogo className="transition-transform duration-200 hover:scale-105" />
+        {plainBrand ? (
+          <BrandLogo tone="plain" />
+        ) : (
+          <BrandLogo className="transition-transform duration-200 hover:scale-105" />
+        )}
       </div>
       <div className="flex items-center gap-1.5 sm:gap-2">
         {user && (
